@@ -1,9 +1,10 @@
 {% extends 'admin/base.html' %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto bg-stone-800 p-8 rounded-lg shadow-2xl border border-stone-700">
-    <div class="flex justify-between items-center mb-8 border-b border-stone-700 pb-4">
-        <h2 class="text-3xl font-heading text-amber-500">Add New Shayari</h2>
+<div class="max-w-3xl mx-auto bg-stone-800 p-4 sm:p-8 rounded-lg shadow-2xl border border-stone-700">
+    <div
+        class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 pb-4 border-b border-stone-700 gap-3">
+        <h2 class="text-2xl sm:text-3xl font-heading text-amber-500">Add New Shayari</h2>
         <a href="{{ url_for('admin_dashboard') }}"
             class="text-stone-400 hover:text-amber-400 transition-colors flex items-center gap-1 text-sm uppercase tracking-wider">
             <span>&larr;</span> Cancel
@@ -20,12 +21,12 @@
         <div class="mb-6">
             <label class="block text-stone-300 text-sm font-bold mb-2 uppercase tracking-wide"
                 for="content">Content</label>
-            <textarea class="input-mehfil h-64 font-body text-lg leading-relaxed" id="content" name="content"
-                placeholder="Write your poetry here..." required></textarea>
+            <textarea class="input-mehfil h-48 sm:h-64 font-body text-base sm:text-lg leading-relaxed" id="content"
+                name="content" placeholder="Write your poetry here..." required></textarea>
             <p class="text-stone-500 text-xs mt-2 italic">Line breaks will be preserved.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
             <div>
                 <label class="block text-stone-300 text-sm font-bold mb-2 uppercase tracking-wide"
                     for="category">Category</label>
@@ -38,16 +39,16 @@
             </div>
         </div>
 
-        <div class="mb-8 p-4 bg-stone-900 rounded-lg-custom border border-stone-700">
+        <div class="mb-6 sm:mb-8 p-4 bg-stone-900 rounded-lg-custom border border-stone-700">
             <label class="inline-flex items-center cursor-pointer">
                 <input type="checkbox" name="is_published" value="1"
                     class="form-checkbox h-5 w-5 text-amber-600 rounded border-stone-600 bg-stone-800 focus:ring-amber-500 focus:ring-offset-stone-900">
-                <span class="ml-3 text-stone-300 font-bold select-none">Publish immediately?</span>
+                <span class="ml-3 text-stone-300 font-bold select-none text-sm sm:text-base">Publish immediately?</span>
             </label>
         </div>
 
         <div class="flex items-center justify-end">
-            <button class="btn-primary" type="submit">
+            <button class="btn-primary w-full sm:w-auto" type="submit">
                 Save & Publish
             </button>
         </div>
