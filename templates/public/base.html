@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mehfil-e-Shayari{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mehfil.css') }}">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mehfil: {
+                            dark: '#1c1917',
+                            gold: '#f59e0b',
+                            cream: '#fffbeb',
+                            accent: '#78350f'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['"Cinzel Decorative"', 'cursive'],
+                        body: ['"Merriweather"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-stone-900 text-amber-50 min-h-screen flex flex-col selection:bg-amber-900 selection:text-white">
+    <header class="py-8 text-center border-b border-stone-800 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-stone-900/50 pointer-events-none"></div>
+        <h1 class="text-4xl md:text-6xl font-heading text-amber-500 ambiance-glow mb-2">
+            <a href="/" class="hover:text-amber-400 transition-colors">Mehfil-e-Shayari</a>
+        </h1>
+        <p class="text-stone-400 italic text-sm md:text-base">Where words find their soul</p>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-8 md:py-12">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="py-6 text-center text-stone-600 text-sm border-t border-stone-800">
+        <p>&copy; 2024 Mehfil-e-Shayari. Crafted with ❤️ for Poetry.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin - Mehfil-e-Shayari{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mehfil.css') }}">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mehfil: {
+                            dark: '#1c1917',
+                            gold: '#f59e0b',
+                            cream: '#fffbeb',
+                            accent: '#78350f'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['"Cinzel Decorative"', 'cursive'],
+                        body: ['"Merriweather"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    class="bg-stone-900 text-amber-50 min-h-screen flex flex-col font-body selection:bg-amber-900 selection:text-white">
+    <header class="bg-stone-900 border-b border-stone-800 shadow-lg">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-heading text-amber-500 ambiance-glow">
+                <a href="{{ url_for('admin_dashboard') }}">Mehfil Admin</a>
+            </h1>
+            <nav class="flex items-center space-x-6 text-sm">
+                <a href="/" target="_blank"
+                    class="text-stone-400 hover:text-amber-400 transition-colors flex items-center gap-1">
+                    View Site <span class="text-lg">&nearr;</span>
+                </a>
+                {% if session.get('admin_id') %}
+                <span class="text-stone-700">|</span>
+                <a href="{{ url_for('logout') }}"
+                    class="text-red-400 hover:text-red-300 transition-colors font-semibold">Logout</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-6 py-8">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="mb-8 max-w-2xl mx-auto">
+            {% for category, message in messages %}
+            <div class="flash-message shadow-lg
+                            {% if category == 'error' %}flash-error{% else %}flash-success{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="py-6 text-center text-stone-600 text-xs border-t border-stone-800">
+        <p>Admin Access Only &copy; 2024</p>
+    </footer>
+</body>
+
+</html>

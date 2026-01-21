@@ -1,0 +1,30 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-stone-800 p-8 rounded-lg shadow-2xl border border-stone-700 mt-10">
+    <div class="text-center mb-8">
+        <h2 class="text-3xl font-heading text-amber-500 mb-2">Admin Login</h2>
+        <p class="text-stone-400 text-sm italic">Enter the Mehfil</p>
+    </div>
+
+    <form action="{{ url_for('login') }}" method="POST">
+        <div class="mb-6">
+            <label class="block text-stone-300 text-sm font-bold mb-2 uppercase tracking-wide"
+                for="username">Username</label>
+            <input class="input-mehfil" id="username" name="username" type="text" placeholder="Your clear name" required
+                autofocus>
+        </div>
+        <div class="mb-8">
+            <label class="block text-stone-300 text-sm font-bold mb-2 uppercase tracking-wide"
+                for="password">Password</label>
+            <input class="input-mehfil" id="password" name="password" type="password" placeholder="Your secret key"
+                required>
+        </div>
+        <div class="flex items-center justify-between">
+            <button class="btn-primary w-full" type="submit">
+                Open the Doors
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

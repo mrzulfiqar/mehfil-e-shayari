@@ -1,0 +1,45 @@
+{% extends 'public/base.html' %}
+
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for shayari in shayari_list %}
+    <article
+        class="bg-stone-800/80 border border-stone-700 p-8 rounded-xl card-hover relative group transition-all duration-300">
+        <!-- Subtle corner decoration -->
+        <div class="absolute top-0 right-0 p-3 text-stone-600 opacity-20 group-hover:opacity-50 transition-opacity">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                <path d="M2 17l10 5 10-5"></path>
+                <path d="M2 12l10 5 10-5"></path>
+            </svg>
+        </div>
+
+        <div class="mb-4">
+            <span class="text-xs uppercase tracking-widest text-mehfil-gold opacity-80 mb-2 block">{{ shayari.category
+                }} &bull; {{ shayari.mood }}</span>
+            <h2 class="text-2xl font-heading text-mehfil-cream group-hover:text-mehfil-gold transition-colors truncate">
+                {{ shayari.title }}
+            </h2>
+        </div>
+
+        <div class="text-stone-300 font-body leading-relaxed mb-6 line-clamp-3">
+            {{ shayari.content }}
+        </div>
+
+        <div class="flex justify-between items-center mt-auto border-t border-stone-700 pt-4">
+            <span class="text-xs text-stone-500">{{ shayari.created_at.strftime('%b %d, %Y') }}</span>
+            <a href="{{ url_for('shayari_detail', id=shayari.id) }}"
+                class="text-sm font-bold text-mehfil-gold hover:text-white transition-colors flex items-center gap-1">
+                Read poetry <span class="text-lg">&rsaquo;</span>
+            </a>
+        </div>
+    </article>
+    {% else %}
+    <div class="col-span-full text-center py-20 text-stone-500">
+        <h3 class="text-2xl font-heading mb-2">The Mehfil is quiet...</h3>
+        <p>No shayari has been published yet.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

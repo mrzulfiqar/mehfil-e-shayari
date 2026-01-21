@@ -1,0 +1,127 @@
+/* Mehfil-e-Shayari Custom Styles */
+
+:root {
+    --color-bg-dark: #1c1917;
+    /* stone-900 */
+    --color-text-gold: #f59e0b;
+    /* amber-500 */
+    --color-text-cream: #fffbeb;
+    /* amber-50 */
+}
+
+body {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-cream);
+    font-family: 'Merriweather', serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Cinzel Decorative', cursive;
+}
+
+/* Subtle Glow Effect for Ambiance */
+.ambiance-glow {
+    text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+}
+
+.card-hover {
+    transition: all 0.3s ease-in-out;
+}
+
+.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1c1917;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #44403c;
+    border-radius: 4px;
+}
+
+
+/* --- Rounded Component Utilities --- */
+
+.rounded-xl-custom {
+    border-radius: 1rem;
+    /* 16px */
+}
+
+.rounded-lg-custom {
+    border-radius: 0.75rem;
+    /* 12px */
+}
+
+/* Rounded Buttons */
+.btn-primary {
+    background-color: #d97706;
+    /* amber-600 */
+    color: #1c1917;
+    /* stone-900 */
+    border-radius: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.btn-primary:hover {
+    background-color: #f59e0b;
+    /* amber-500 */
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Rounded Inputs (Consolidated Admin Input) */
+.input-mehfil {
+    background-color: #292524;
+    /* stone-800 */
+    border: 1px solid #44403c;
+    /* stone-700 */
+    color: #fffbeb;
+    /* amber-50 */
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    transition: all 0.2s ease;
+}
+
+.input-mehfil:focus {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+    outline: none;
+}
+
+/* Flash Messages - Rounded */
+.flash-message {
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(4px);
+}
+
+.flash-success {
+    background-color: rgba(6, 78, 59, 0.5);
+    border: 1px solid #059669;
+    color: #a7f3d0;
+}
+
+.flash-error {
+    background-color: rgba(127, 29, 29, 0.5);
+    border: 1px solid #dc2626;
+    color: #fca5a5;
+}
