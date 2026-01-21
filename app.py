@@ -1,4 +1,4 @@
-import mysql.connector
+import sqlite3
 from flask import Flask, render_template, g, request, redirect, url_for, flash, session
 from werkzeug.security import check_password_hash
 import functools
@@ -7,20 +7,30 @@ from config import Config
 app = Flask(__name__)
 app.config.from_object(Config)
 
+# Custom Jinja2 filter for date formatting
+@app.template_filter('format_date')
+def format_date(value):
+    """Format a date value (handles both datetime objects and strings)."""
+    from datetime import datetime
+    if isinstance(value, datetime):
+        return value.strftime('%Y-%m-%d')
+    elif isinstance(value, str):
+        # SQLite returns timestamps as strings, extract just the date part
+        return value[:10] if value else 'Unknown'
+    return 'Unknown'
+
 def get_db_connection():
     """Establishes and returns a database connection.
     Stores connection in Flask's global `g` object for the request duration.
     """
     if 'db' not in g:
         try:
-            g.db = mysql.connector.connect(
-                host=app.config['DB_HOST'],
-                user=app.config['DB_USER'],
-                password=app.config['DB_PASSWORD'],
-                database=app.config['DB_NAME']
+            g.db = sqlite3.connect(
+                app.config['DATABASE'],
+                detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
             )
-        except mysql.connector.Error as err:
-            # In a real app, log this error
+            g.db.row_factory = sqlite3.Row
+        except sqlite3.Error as err:
             print(f"Error connecting to database: {err}")
             return None
     return g.db
@@ -49,7 +59,7 @@ def home():
     conn = get_db_connection()
     shayari_list = []
     if conn:
-        cursor = conn.cursor(dictionary=True)
+        cursor = conn.cursor()
         cursor.execute("SELECT * FROM shayari WHERE is_published = 1 ORDER BY created_at DESC")
         shayari_list = cursor.fetchall()
         cursor.close()
@@ -61,8 +71,8 @@ def shayari_detail(id):
     conn = get_db_connection()
     shayari = None
     if conn:
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM shayari WHERE id = %s AND is_published = 1", (id,))
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM shayari WHERE id = ? AND is_published = 1", (id,))
         shayari = cursor.fetchone()
         cursor.close()
     
@@ -84,8 +94,8 @@ def login():
         user = None
         
         if conn:
-            cursor = conn.cursor(dictionary=True)
-            cursor.execute("SELECT * FROM admins WHERE username = %s", (username,))
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM admins WHERE username = ?", (username,))
             user = cursor.fetchone()
             cursor.close()
             
@@ -120,7 +130,7 @@ def admin_dashboard():
     conn = get_db_connection()
     shayari_list = []
     if conn:
-        cursor = conn.cursor(dictionary=True)
+        cursor = conn.cursor()
         cursor.execute("SELECT * FROM shayari ORDER BY created_at DESC")
         shayari_list = cursor.fetchall()
         cursor.close()
@@ -140,7 +150,7 @@ def add_shayari():
         if conn:
             cursor = conn.cursor()
             cursor.execute(
-                "INSERT INTO shayari (title, content, category, mood, is_published) VALUES (%s, %s, %s, %s, %s)",
+                "INSERT INTO shayari (title, content, category, mood, is_published) VALUES (?, ?, ?, ?, ?)",
                 (title, content, category, mood, is_published)
             )
             conn.commit()
@@ -155,7 +165,7 @@ def add_shayari():
 def edit_shayari(id):
     conn = get_db_connection()
     if conn:
-        cursor = conn.cursor(dictionary=True)
+        cursor = conn.cursor()
         
         if request.method == 'POST':
             title = request.form['title']
@@ -165,7 +175,7 @@ def edit_shayari(id):
             is_published = 1 if request.form.get('is_published') else 0
             
             cursor.execute(
-                "UPDATE shayari SET title = %s, content = %s, category = %s, mood = %s, is_published = %s WHERE id = %s",
+                "UPDATE shayari SET title = ?, content = ?, category = ?, mood = ?, is_published = ? WHERE id = ?",
                 (title, content, category, mood, is_published, id)
             )
             conn.commit()
@@ -174,7 +184,7 @@ def edit_shayari(id):
             return redirect(url_for('admin_dashboard'))
         
         # GET request
-        cursor.execute("SELECT * FROM shayari WHERE id = %s", (id,))
+        cursor.execute("SELECT * FROM shayari WHERE id = ?", (id,))
         shayari = cursor.fetchone()
         cursor.close()
         
@@ -191,7 +201,7 @@ def delete_shayari(id):
     conn = get_db_connection()
     if conn:
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM shayari WHERE id = %s", (id,))
+        cursor.execute("DELETE FROM shayari WHERE id = ?", (id,))
         conn.commit()
         cursor.close()
         flash('Shayari deleted.', 'success')

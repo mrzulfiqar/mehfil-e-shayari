@@ -20,7 +20,7 @@
             <span class="uppercase tracking-widest">{{ shayari.mood }}</span>
         </div>
         <h1 class="text-4xl md:text-6xl font-heading text-mehfil-cream ambiance-glow mb-4">{{ shayari.title }}</h1>
-        <p class="text-stone-500 text-sm">{{ shayari.created_at.strftime('%B %d, %Y') }}</p>
+        <p class="text-stone-500 text-sm">{{ shayari.created_at | format_date }}</p>
     </div>
 
     <!-- Divider -->

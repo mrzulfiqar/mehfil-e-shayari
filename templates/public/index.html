@@ -28,7 +28,7 @@
         </div>
 
         <div class="flex justify-between items-center mt-auto border-t border-stone-700 pt-4">
-            <span class="text-xs text-stone-500">{{ shayari.created_at.strftime('%b %d, %Y') }}</span>
+            <span class="text-xs text-stone-500">{{ shayari.created_at | format_date }}</span>
             <a href="{{ url_for('shayari_detail', id=shayari.id) }}"
                 class="text-sm font-bold text-mehfil-gold hover:text-white transition-colors flex items-center gap-1">
                 Read poetry <span class="text-lg">&rsaquo;</span>
