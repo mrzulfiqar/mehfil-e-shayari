@@ -1,4 +1,6 @@
-import sqlite3
+import os
+import psycopg2
+from psycopg2.extras import RealDictCursor
 from flask import Flask, render_template, g, request, redirect, url_for, flash, session
 from werkzeug.security import check_password_hash
 import functools
@@ -20,17 +22,16 @@ def format_date(value):
     return 'Unknown'
 
 def get_db_connection():
-    """Establishes and returns a database connection.
-    Stores connection in Flask's global `g` object for the request duration.
+    """Establishes and returns a PostgreSQL database connection.
+    Uses DATABASE_URL environment variable for Supabase connection.
     """
     if 'db' not in g:
         try:
-            g.db = sqlite3.connect(
-                app.config['DATABASE'],
-                detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
+            g.db = psycopg2.connect(
+                app.config['DATABASE_URL'],
+                cursor_factory=RealDictCursor
             )
-            g.db.row_factory = sqlite3.Row
-        except sqlite3.Error as err:
+        except psycopg2.Error as err:
             print(f"Error connecting to database: {err}")
             return None
     return g.db

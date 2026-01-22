@@ -7,7 +7,7 @@ class Config:
     """Base configuration."""
     SECRET_KEY = os.environ.get('SECRET_KEY', 'dev_key_default_value_changeme')
     
-    # Database Configuration
-    DATABASE = os.path.join(os.path.dirname(__file__), 'database', 'mehfil.db')
+    # Database Configuration (PostgreSQL via Supabase)
+    DATABASE_URL = os.environ.get('DATABASE_URL')
     
     # Ensure all required config is available (optional strict check)
